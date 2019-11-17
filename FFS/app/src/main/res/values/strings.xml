@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FFS</string>
+    <string name="loginBtnString">LOGIN</string>
+</resources>
