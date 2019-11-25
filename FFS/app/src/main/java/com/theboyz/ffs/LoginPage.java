@@ -1,19 +1,24 @@
 package com.theboyz.ffs;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.theboyz.utils.*;
+
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import org.json.*;
+
+import java.util.HashMap;
 
 
 public class LoginPage extends AppCompatActivity
 {
    private EditText email;
    private EditText pass;
-//   private userDB userDatabase;
-//   private userAccount session;
+   private userAccount user;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -22,23 +27,41 @@ public class LoginPage extends AppCompatActivity
       setContentView(R.layout.login_page);
       this.email = findViewById(R.id.emailField);
       this.pass = findViewById(R.id.pwField);
-//      this.userDatabase = new userDB();
-//      session = null;
    }
 
    public void _loginClick(View view)
    {
-      try
+      JSONObject response = ffsAPI.authenticate(email.getText().toString(), pass.getText().toString());
+
+      if (response != null)
       {
-         String res = new apiGet().execute("http://99.179.141.41:25565/api/get_team", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1NzQ2NTgyNDh9.jieeZiuvVirlqlhjwBeaIE8P93W3RPR41jXBSkDqT6M").get();
-         System.out.println(res);
-
-      }
-      catch (Exception e)
+         Intent intent = getIntent();
+         intent.putExtra("userjson", response.toString());
+         setResult(MainActivity.LOGIN_SUCCESSFUL, intent);
+         finish();
+      }//End if
+      else
       {
-         System.out.println(e.getMessage());
+         //Create Dialog and display error
+         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+         builder.setMessage(R.string.login_error);
+         // Add ok button
+         builder.setPositiveButton(R.string.okay_button, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id)
+            {
+               dialog.dismiss();
+            }
+         });
+
+         //Could create no button here but no need to
+//            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int id) {
+//                    // User cancelled the dialog
+//                }
+//            });
+
+         AlertDialog dialog = builder.create();
+         dialog.show();
       }
-
-
    }//End _loginClick
 }//End class LoginPage

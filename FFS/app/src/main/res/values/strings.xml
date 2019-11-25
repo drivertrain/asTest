@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FFS</string>
     <string name="loginBtnString">LOGIN</string>
+    <string name="registerBtnString">REGISTER</string>
+    <string name="okay_button">OKAY</string>
     <string name="title_activity_landing_page">LandingPage</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,6 +10,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="invalid_input">Please Double Check the Input Fields...</string>
+    <string name="login_error">Error validating credentials, please try again!</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
