@@ -30,7 +30,7 @@ public class LoginPage extends AppCompatActivity
    {
       try
       {
-         String res = new apiGet().execute("http://10.0.2.2:46680/api/get_team", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1NzQ1NTA3ODF9.2apjRi5jsdpkHXCzwjRvj5SCFIk43un-ixrZ-m_TJo0").get();
+         String res = new apiGet().execute("http://99.179.141.41:25565/api/get_team", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1NzQ2NTgyNDh9.jieeZiuvVirlqlhjwBeaIE8P93W3RPR41jXBSkDqT6M").get();
          System.out.println(res);
 
       }
