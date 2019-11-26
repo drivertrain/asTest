@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity
 {
     public static final int LOGIN_REQUEST_CODE = 3350;
     public static final int LOGIN_SUCCESSFUL = 3360;
+    private String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     public void _login_clicked(View view)
     {
-//        startActivityForResult(new Intent(this, LoginPage.class), LOGIN_REQUEST_CODE);
-        startActivity(new Intent(this, PickPlayers.class));
+        startActivityForResult(new Intent(this, LoginPage.class), LOGIN_REQUEST_CODE);
     }
 
     @Override
@@ -48,8 +48,15 @@ public class MainActivity extends AppCompatActivity
                 case (LOGIN_REQUEST_CODE):
                     if (resultCode == LOGIN_SUCCESSFUL)
                     {
-                        userAccount user = new userAccount(new JSONObject(data.getStringExtra("userjson")));
-                        System.out.println(user.genAccJson().toString());
+                        //Save currentUser
+                        this.currentUser = data.getStringExtra("userjson");
+
+                        //Create next activity
+                        Intent nextPage = new Intent(this, PickPlayers.class);
+                        nextPage.putExtra("userjson", this.currentUser);
+
+                        //Start next activity
+                        startActivity(nextPage);
                     }
 
                     break;

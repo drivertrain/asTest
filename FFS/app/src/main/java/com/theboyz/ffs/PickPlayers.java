@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.theboyz.ui.PlayerCardOffset;
 import com.theboyz.ui.PlayerViewAdapter;
-import com.theboyz.ui.PlayerViewItem;
+import com.theboyz.utils.*;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -21,7 +25,8 @@ public class PickPlayers extends AppCompatActivity
     private PlayerViewAdapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private RecyclerView.ItemDecoration rItemDecorator;
-    private ArrayList<PlayerViewItem> players;
+    private ArrayList<NFLPlayer> players;
+    private userAccount user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,11 +35,23 @@ public class PickPlayers extends AppCompatActivity
         setContentView(R.layout.activity_pick_players);
 
         searchField = findViewById(R.id.playerSearchField);
+        try
+        {
+            this.user = new userAccount(new JSONObject(getIntent().getStringExtra("userjson")));
+            players = ffsAPI.getPlayers(this.user, "2019");
+            NFLPlayer currentPlayer;
+            for (int i = 0; i < players.size(); i++)
+            {
+                currentPlayer = players.get(i);
+                currentPlayer.setImageResource(this.getResources().getIdentifier(currentPlayer.getTeam().toLowerCase() + ".png", "drawable", this.getPackageName()));
+            }
+        }//End try
 
-        players = new ArrayList<>();
-        players.add(new PlayerViewItem(R.drawable.logo, "NAME1", "SCORE1"));
-        players.add(new PlayerViewItem(R.drawable.logo, "NAME2", "SCORE2"));
-        players.add(new PlayerViewItem(R.drawable.logo, "NAME3", "SCORE3"));
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            finish();
+        }//End catch
 
         this.recyclerView = findViewById(R.id.playerView);
         this.rItemDecorator = new PlayerCardOffset(this, R.dimen.player_card_offset);
@@ -55,12 +72,21 @@ public class PickPlayers extends AppCompatActivity
         //Else reset view contents
         else
             this.rAdapter.removeFilters();
+
+        this.searchField.setText("");
+        this.closeKeyboard();
     }
 
-    public void _handle_card_click(View view)
+    private void closeKeyboard()
     {
-        //Inspect Player
-    }
+        View view = this.getCurrentFocus();
+        if (view != null)
+        {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }//End if
+    }//End closeKeyboard
+
 }
 
 

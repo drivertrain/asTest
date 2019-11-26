@@ -2,7 +2,10 @@ package com.theboyz.utils;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class ffsAPI
 {
@@ -48,6 +51,28 @@ public class ffsAPI
 
         return status;
     }//End updateLeagueConfig
+
+    public static ArrayList<NFLPlayer> getPlayers(userAccount user, String year) throws Exception
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("URL", URL + "api/get_players");
+        params.put("token", user.getToken());
+        params.put("datatype", "keyvalue");
+        params.put("year", year);
+
+        JSONObject response = new apiPost().execute(params).get();
+        if (!(response.getString("status").equals("success")))
+            return null;
+
+        JSONObject players = response.getJSONObject("data");
+        ArrayList<String> playerKeys = (ArrayList) Helpers.getListFromIterator(players.keys());
+        ArrayList<NFLPlayer> rVal = new ArrayList<>();
+        for (int i = 0; i < playerKeys.size(); i++)
+        {
+            rVal.add(new NFLPlayer(players.getJSONObject(playerKeys.get(i))));
+        }
+        return rVal;
+    }
 
 
 
