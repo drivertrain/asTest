@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegisterPage"></activity>
+        <activity android:name=".PickPlayers"></activity>
+        <activity android:name=".RegisterPage" />
         <activity android:name=".LoginPage" />
         <activity android:name=".MainActivity">
             <intent-filter>
