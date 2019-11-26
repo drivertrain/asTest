@@ -12,11 +12,12 @@
         android:networkSecurityConfig="@xml/security_config"
         android:roundIcon="@mipmap/ffs_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PickPlayers"></activity>
+        <activity android:name=".PickPlayers"/>
         <activity android:name=".RegisterPage" />
         <activity android:name=".LoginPage" />
+        <activity android:name=".PlayerDialog"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,10 +15,13 @@ import android.widget.EditText;
 import com.theboyz.ui.PlayerCardOffset;
 import com.theboyz.ui.PlayerViewAdapter;
 import com.theboyz.utils.*;
+import org.apache.http.NameValuePair;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PickPlayers extends AppCompatActivity
 {
@@ -27,14 +32,17 @@ public class PickPlayers extends AppCompatActivity
     private RecyclerView.ItemDecoration rItemDecorator;
     private ArrayList<NFLPlayer> players;
     private userAccount user;
+    private ArrayList<NameValuePair> todo;
+    private PlayerFilter playerFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_players);
+        this.todo = new ArrayList<>();
 
-        searchField = findViewById(R.id.playerSearchField);
+
         try
         {
             this.user = new userAccount(new JSONObject(getIntent().getStringExtra("userjson")));
@@ -53,28 +61,27 @@ public class PickPlayers extends AppCompatActivity
             finish();
         }//End catch
 
+        this.searchField = findViewById(R.id.playerSearchField);
         this.recyclerView = findViewById(R.id.playerView);
         this.rItemDecorator = new PlayerCardOffset(this, R.dimen.player_card_offset);
         this.rLayoutManager = new LinearLayoutManager(this);
-        this.rAdapter = new PlayerViewAdapter(players);
+        this.rAdapter = new PlayerViewAdapter(players, this.todo, this.user);
 
         this.recyclerView.setLayoutManager(this.rLayoutManager);
         this.recyclerView.addItemDecoration(this.rItemDecorator);
         this.recyclerView.setAdapter(this.rAdapter);
+        this.playerFilter = new PlayerFilter(this.rAdapter, this.searchField);
+        this.searchField.addTextChangedListener(this.playerFilter);
 
     }
 
-    public void _filter_players(View view)
+    public void _save_changes(View view)
     {
-        //Filter ArrayList and reload if there is something in search box
-        if (!(this.searchField.getText().toString().isEmpty()))
-            this.rAdapter.filterPlayers(this.searchField.getText().toString());
-        //Else reset view contents
-        else
-            this.rAdapter.removeFilters();
+        for (NameValuePair item: this.todo)
+        {
+            System.out.println(item.getName() + ": " + item.getValue());
+        }
 
-        this.searchField.setText("");
-        this.closeKeyboard();
     }
 
     private void closeKeyboard()
@@ -86,6 +93,40 @@ public class PickPlayers extends AppCompatActivity
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }//End if
     }//End closeKeyboard
+
+    public class PlayerFilter implements TextWatcher
+    {
+        PlayerViewAdapter adapter;
+        EditText searchField;
+
+        public PlayerFilter(PlayerViewAdapter adapter, EditText searchField)
+        {
+            this.adapter = adapter;
+            this.searchField = searchField;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+            return;
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            return;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
+            if (!(this.searchField.getText().toString().isEmpty()))
+                this.adapter.filterPlayers(this.searchField.getText().toString());
+                //Else reset view contents
+            else
+                this.adapter.removeFilters();
+        }
+    }
 
 }
 

@@ -1,5 +1,6 @@
 package com.theboyz.utils;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
@@ -72,6 +73,12 @@ public class ffsAPI
             rVal.add(new NFLPlayer(players.getJSONObject(playerKeys.get(i))));
         }
         return rVal;
+    }//End get players
+
+    public static boolean updatePlayers(userAccount user, ArrayList<NameValuePair> params)
+    {
+
+        return true;
     }
 
 

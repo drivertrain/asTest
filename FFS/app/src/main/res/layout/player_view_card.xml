@@ -42,6 +42,14 @@
             android:layout_toEndOf="@id/playerImg">
         </TextView>
 
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/add_button_text"
+            android:id="@+id/addButton">
+        </Button>
+
     </RelativeLayout>
 
 

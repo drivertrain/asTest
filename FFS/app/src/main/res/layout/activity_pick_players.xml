@@ -9,40 +9,42 @@
 
     <EditText
         android:id="@+id/playerSearchField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="379dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="64dp"
         android:background="@color/cardview_dark_background"
         android:ems="10"
         android:hint="Enter Player Name"
         android:inputType="textPersonName"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/searchBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="44dp"
-        android:onClick="_filter_players"
-        android:text="@android:string/search_go"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playerView"
-        android:layout_width="419dp"
-        android:layout_height="607dp"
-        android:layout_marginTop="88dp"
+        android:layout_width="406dp"
+        android:layout_height="419dp"
+        android:layout_marginTop="28dp"
         android:background="@color/cardview_dark_background"
         android:padding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSearchField" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="268dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="50dp"
+        android:onClick="_save_changes"
+        android:text="@string/save_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

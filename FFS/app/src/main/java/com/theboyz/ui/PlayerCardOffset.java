@@ -5,9 +5,9 @@ import android.graphics.Rect;
 import android.view.View;
 
 import androidx.annotation.DimenRes;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import afu.org.checkerframework.checker.nullness.qual.NonNull;
 
 public class PlayerCardOffset extends RecyclerView.ItemDecoration
 {

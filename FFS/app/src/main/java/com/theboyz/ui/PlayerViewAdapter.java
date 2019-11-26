@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theboyz.ffs.R;
 import com.theboyz.utils.NFLPlayer;
+import com.theboyz.utils.userAccount;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.ViewHolder>
 {
@@ -22,23 +30,52 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
         public ImageView playerImg;
         public TextView playerName;
         public TextView playerScore;
+        public Button changeButton;
+        public NFLPlayer player;
+        public final ArrayList<NameValuePair> todo;
+        public final userAccount user;
 
-        public ViewHolder(@NonNull View itemView)
+        public ViewHolder(@NonNull View itemView, ArrayList<NameValuePair> todo, userAccount user)
         {
             super(itemView);
             this.playerImg = itemView.findViewById(R.id.playerImg);
             this.playerName = itemView.findViewById(R.id.playerName);
             this.playerScore = itemView.findViewById(R.id.playerScore);
+            this.changeButton = itemView.findViewById(R.id.addButton);
+            this.user = user;
+            this.todo = todo;
+            this.changeButton.setOnClickListener(v -> this._on_player_click());
         }//End ViewHolder Constructor
+
+        public void _on_player_click()
+        {
+
+            if (Arrays.asList(this.user.getPlayerIDS()).contains(this.player.getID()))
+                todo.add(new BasicNameValuePair("remove", this.player.getID()));
+            else
+                todo.add(new BasicNameValuePair("add", this.player.getID()));
+
+        }
+        
+        public void setButtonText()
+        {
+            if (Arrays.asList(this.user.getPlayerIDS()).contains(this.player.getID()))
+                this.changeButton.setText(R.string.remove_button_text);
+            else
+                this.changeButton.setText(R.string.add_button_text);
+        }
     }//End class ViewHolder
 
     private ArrayList<NFLPlayer> masterPlayerList, playerList;
-    private ViewGroup parent;
+    private ArrayList<NameValuePair> todo;
+    private userAccount user;
 
-    public PlayerViewAdapter(ArrayList<NFLPlayer> playerList)
+    public PlayerViewAdapter(ArrayList<NFLPlayer> playerList, ArrayList<NameValuePair> todo, userAccount user)
     {
         this.playerList = playerList;
         this.masterPlayerList = playerList;
+        this.todo = todo;
+        this.user = user;
     }
 
     @NonNull
@@ -46,8 +83,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_view_card, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        this.parent = parent;
+        ViewHolder viewHolder = new ViewHolder(v, this.todo, this.user);
         return viewHolder;
     }
 
@@ -59,6 +95,8 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
         holder.playerImg.setImageResource(currentItem.getImageResource());
         holder.playerName.setText(currentItem.getName());
         holder.playerScore.setText(currentItem.getScore());
+        holder.player = currentItem;
+        holder.setButtonText();
     }
 
     public void filterPlayers(String term)
@@ -69,6 +107,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
             if (this.masterPlayerList.get(i).getName().toLowerCase().contains(term.toLowerCase()))
                 this.playerList.add(this.masterPlayerList.get(i));
         }//End for
+        System.out.println(this.todo.size());
         notifyDataSetChanged();
     }
 

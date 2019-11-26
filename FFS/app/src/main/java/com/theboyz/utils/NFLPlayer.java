@@ -38,6 +38,7 @@ public class NFLPlayer
     public String getName() { return this.name; }
     public String getScore() { return String.valueOf(this.leagueScore); }
     public String getTeam() { return this.team; }
+    public String getID() { return this.playerID; }
 
 
     public int getImageResource() { return this.imageResource; }

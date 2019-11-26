@@ -3,7 +3,6 @@ package com.theboyz.utils;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import org.json.JSONObject;
-import tech.tablesaw.api.Table;
 import org.json.*;
 
 /**
@@ -168,39 +167,7 @@ public class userAccount
 //
 //    }//End getItems()
 
-    /**
-     * Parses the data regarding scoredStats, statWeights, and playerIDS that is returned from the database. Then is stores these values in the member functions
-     * @param df Table returned from info.accInfo in the database
-     */
-    private void parseInfo(Table df)
-    {
-        try
-        {
-            //Get data from columns
-            String stats = df.stringColumn("scoredStats").get(0);
-            String weights = df.stringColumn("statWeights").get(0);
-            String players = df.stringColumn("playerIDS").get(0);
 
-            //Parse stats string and store in member variable
-            this.scoredStats = this.parseStr(stats);
-            this.playerIDS = this.parseStr(players);
-
-            //Parse weights into double array
-            String [] temp = this.parseStr(weights);
-            ArrayList<Double> holder = new ArrayList<>();
-            for (String val: temp)
-                holder.add(Double.valueOf(val));
-
-            //Convery ArrayList to primitive double array
-            this.statWeights = new double[holder.size()];
-            for (int i = 0; i < holder.size(); i++)
-                this.statWeights[i] = holder.get(i);
-
-        } catch (Exception E)
-        {
-            System.out.println("Account not setup. Will use default scoring info...");
-        }
-    }//End parseInfo
 
     /**
      * Formats string form of python list into an array of strings
