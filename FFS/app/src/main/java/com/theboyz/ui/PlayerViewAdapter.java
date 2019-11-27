@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static java.lang.Boolean.FALSE;
+
 public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.ViewHolder>
 {
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -32,10 +34,12 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
         public TextView playerScore;
         public Button changeButton;
         public NFLPlayer player;
-        public final ArrayList<NameValuePair> todo;
+        public final ArrayList<BasicNameValuePair> todo;
         public final userAccount user;
+        public int position;
+        private final PlayerViewAdapter adapter;
 
-        public ViewHolder(@NonNull View itemView, ArrayList<NameValuePair> todo, userAccount user)
+        public ViewHolder(@NonNull View itemView, ArrayList<BasicNameValuePair> todo, userAccount user, PlayerViewAdapter parent)
         {
             super(itemView);
             this.playerImg = itemView.findViewById(R.id.playerImg);
@@ -44,6 +48,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
             this.changeButton = itemView.findViewById(R.id.addButton);
             this.user = user;
             this.todo = todo;
+            this.adapter = parent;
             this.changeButton.setOnClickListener(v -> this._on_player_click());
         }//End ViewHolder Constructor
 
@@ -51,10 +56,13 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
         {
 
             if (Arrays.asList(this.user.getPlayerIDS()).contains(this.player.getID()))
+            {
                 todo.add(new BasicNameValuePair("remove", this.player.getID()));
+            }
             else
                 todo.add(new BasicNameValuePair("add", this.player.getID()));
-
+            this.changeButton.setVisibility(View.INVISIBLE);
+            this.changeButton.setEnabled(FALSE);
         }
         
         public void setButtonText()
@@ -64,13 +72,15 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
             else
                 this.changeButton.setText(R.string.add_button_text);
         }
+
+        public void setPosition(int val) { this.position = val; }
     }//End class ViewHolder
 
     private ArrayList<NFLPlayer> masterPlayerList, playerList;
-    private ArrayList<NameValuePair> todo;
+    private ArrayList<BasicNameValuePair> todo;
     private userAccount user;
 
-    public PlayerViewAdapter(ArrayList<NFLPlayer> playerList, ArrayList<NameValuePair> todo, userAccount user)
+    public PlayerViewAdapter(ArrayList<NFLPlayer> playerList, ArrayList<BasicNameValuePair> todo, userAccount user)
     {
         this.playerList = playerList;
         this.masterPlayerList = playerList;
@@ -83,7 +93,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_view_card, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v, this.todo, this.user);
+        ViewHolder viewHolder = new ViewHolder(v, this.todo, this.user, this);
         return viewHolder;
     }
 
@@ -96,7 +106,10 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
         holder.playerName.setText(currentItem.getName());
         holder.playerScore.setText(currentItem.getScore());
         holder.player = currentItem;
+        holder.changeButton.setEnabled(true);
+        holder.changeButton.setVisibility(View.VISIBLE);
         holder.setButtonText();
+        holder.setPosition(position);
     }
 
     public void filterPlayers(String term)
