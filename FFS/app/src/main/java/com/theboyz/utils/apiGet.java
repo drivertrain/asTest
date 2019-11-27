@@ -7,7 +7,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
@@ -44,8 +43,6 @@ public class apiGet extends AsyncTask<Map<String, String>, Void, JSONObject>
       String URL = params[0].get("URL");
       String token = params[0].get("token");
 
-      System.out.println("URL: " + URL);
-      System.out.println("Token: " + token);
       HttpClient httpClient = new DefaultHttpClient();
       HttpContext localContext = new BasicHttpContext();
       HttpGet httpGet = new HttpGet(URL);

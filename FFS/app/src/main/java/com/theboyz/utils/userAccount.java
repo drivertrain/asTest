@@ -1,10 +1,7 @@
 package com.theboyz.utils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import org.json.JSONObject;
-import org.json.*;
-
 /**
  * userAccount class keeps track of details related to the users team
  * @author chaseuphaus
@@ -30,33 +27,10 @@ public class userAccount
         loggedIn = false;
     }//end default constructor
 
-    /**
-     * Constructor the runs when the user correctly enters their credentials
-     * @param id The id returned from the database if credentials are correct
-     */
-    public userAccount(int id)
-    {
-        loggedIn = true;
-        this.userID = id;
-//        this.getItems();
-    }
-
-    public userAccount(JSONObject data)
+    public userAccount(String token)
     {
         this.loggedIn = true;
-        try
-        {
-            JSONObject user = data.getJSONObject("user");
-            this.playerIDS = this.parseStr(user.getString("playerIDS"));
-            this.scoredStats = this.parseStr(user.getString("scoredStats"));
-            this.statWeights = this.parseDouble(user.getString("statWeights"));
-            this.token = data.getString("token");
-        }//End
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-            this.loggedIn = false;
-        }
+        this.token = token;
     }
 
     //Setters
@@ -94,22 +68,19 @@ public class userAccount
         return user;
     }
 
-    /**
-     * This function is used to get the account info back into the form that it is stored on the database with (python style list as a string)
-     * @return  Array of strings where each string in the array is a python-esque list
-     */
-    public String[] prepInfo()
+    public void configureUser(JSONObject user)
     {
-        //Set stats up to go into the db
-        String stats = this.packString(this.scoredStats);
-        String players = this.packString(this.playerIDS);
-
-        //Set up weights to go into db
-        String weights = this.packDouble(this.statWeights);
-
-        return new String[] {stats, weights, players};
-
-    }//End prepInfo()
+        try
+        {
+            this.playerIDS = this.parseStr(user.getString("playerIDS"));
+            this.scoredStats = this.parseStr(user.getString("scoredStats"));
+            this.statWeights = this.parseDouble(user.getString("statWeights"));
+        }//End
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage() + "configureUserError");
+        }
+    }//End configureUser
 
     /**
      * packString converts a list/array of strings into an array formatted like a list from python
@@ -147,27 +118,6 @@ public class userAccount
         return out.replaceAll(".0,", ",").replaceAll(".0\\]", "]");
     }//End packDouble
 
-    /**
-     * getItems connects to the accountDB and pulls in the users team, stat, and weight info
-     */
-//    private void getItems()
-//    {
-//        if (!this.loggedIn)
-//            return;
-//
-//        userDB users = new userDB();
-//        try
-//        {
-//            this.events = users.pullEvents(this);
-//        } catch (Exception e)
-//        {
-//            //Right here we should add something that asks the user to select their fantasy rules or just use the defaults
-//            System.out.println(e.getMessage());
-//        }//End Try/Catch
-//
-//    }//End getItems()
-
-
 
     /**
      * Formats string form of python list into an array of strings
@@ -198,14 +148,5 @@ public class userAccount
         return rval;
 
     }
-
-    /**
-     * This function is called by the userDB class after the user modifies their account config (i.e. players, stats, or statWeights)
-     */
-//    protected void reload()
-//    {
-//        this.getItems();
-//    }
-
 
 }//End class userAccount

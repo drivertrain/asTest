@@ -10,11 +10,33 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="invalid_input">Please Double Check the Input Fields...</string>
+    <string name="invalid_input">Please Double Check the Input Fields…</string>
     <string name="login_error">Error validating credentials, please try again!</string>
     <string name="add_button_text">ADD</string>
     <string name="remove_button_text">REMOVE</string>
     <string name="save_button_text">SAVE CHANGES</string>
+    <string name="changes_pending_text">CHANGES PENDING</string>
+    <string name="next_button_text">NEXT</string>
+
+<!--    Strings For Pick Scoring Page   -->
+    <string name="pass_comp">Pass Completions</string>
+    <string name="pass_yds">Pass Yards</string>
+    <string name="pass_tds">Pass Touchdowns</string>
+    <string name="pass_ints">Interceptions Thrown</string>
+    <string name="rush_att">Rush Attempts</string>
+    <string name="rush_yds">Rush Yards</string>
+    <string name="rush_tds">Rush Touchdowns</string>
+    <string name="recept">Receptions</string>
+    <string name="rec_yds">Receiving Yards</string>
+    <string name="rec_tds">Receiving Touchdowns</string>
+    <string name="st_ret_yds">Kick/Punt Return Yards</string>
+    <string name="kickret_tds">Kick Return Touchdowns</string>
+    <string name="puntret_tds">Punt Return Touchdownss</string>
+    <string name="fumbs_lost">Fumbles Lost</string>
+    <string name="two_pts">Two Point Conversions</string>
+    <string name="xpa">Extra Points</string>
+    <string name="fgs">Field Goals</string>
+
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>

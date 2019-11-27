@@ -32,6 +32,7 @@ public class ffsAPI
         }
         catch (Exception e)
         {
+            System.out.println(e.getMessage() + "\nFROM ffsAPI_authenticate()");
             rVal = null;
         }
         return rVal;
@@ -75,11 +76,21 @@ public class ffsAPI
         return rVal;
     }//End get players
 
-    public static boolean updatePlayers(userAccount user, ArrayList<NameValuePair> params)
-    {
 
-        return true;
-    }
+    public static JSONObject getUserConfig(userAccount user) throws Exception
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("URL", URL + "api/get_user");
+        params.put("token", user.getToken());
+        params.put("datatype", "keyvalue");
+        JSONObject response = new apiGet().execute(params).get();
+        if (!(response.getString("status").equals("success")))
+            response = null;
+        else
+            response = response.getJSONObject("user");
+
+        return response;
+    }//End getUserConfig
 
 
 

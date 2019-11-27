@@ -21,7 +21,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PickPlayers extends AppCompatActivity
 {
@@ -32,7 +31,7 @@ public class PickPlayers extends AppCompatActivity
     private RecyclerView.ItemDecoration rItemDecorator;
     private ArrayList<NFLPlayer> players;
     private userAccount user;
-    private ArrayList<NameValuePair> todo;
+    private ArrayList<BasicNameValuePair> todo;
     private PlayerFilter playerFilter;
 
     @Override
@@ -45,7 +44,8 @@ public class PickPlayers extends AppCompatActivity
 
         try
         {
-            this.user = new userAccount(new JSONObject(getIntent().getStringExtra("userjson")));
+            this.user = new userAccount(new JSONObject(getIntent().getStringExtra("token")).getString("token"));
+            this.user.configureUser(ffsAPI.getUserConfig(this.user));
             players = ffsAPI.getPlayers(this.user, "2019");
             NFLPlayer currentPlayer;
             for (int i = 0; i < players.size(); i++)
@@ -77,12 +77,53 @@ public class PickPlayers extends AppCompatActivity
 
     public void _save_changes(View view)
     {
-        for (NameValuePair item: this.todo)
-        {
-            System.out.println(item.getName() + ": " + item.getValue());
-        }
+        ArrayList<String> ids = new ArrayList<>();
 
-    }
+        for (String val: this.user.getPlayerIDS())
+            ids.add(val);
+
+        System.out.println("BEFORE: " + ids.toString());
+
+        //Loop for each change requested
+        for (int i = 0; i < this.todo.size(); i++)
+        {
+            String op = this.todo.get(i).getName();
+            String param = this.todo.get(i).getValue();
+
+            //Cases for removing player or adding player
+            switch (op)
+            {
+                case "remove":
+                    //First make sure player is owned by the user
+                    if (!(ids.contains(param)))
+                        System.out.println("PLAYER IS NOT OWNED");
+                    //Remove player from users collection
+                    else
+                    {
+                        System.out.println("REMOVING " + param);
+                        ids.remove(param);
+                    }//End else
+                    break;
+                case "add":
+                    //First make sure player is not owned by the user
+                    if (ids.contains(param))
+                        System.out.println("PLAYER ALEADY OWNED");
+                    //Add player to users collection
+                    else
+                    {
+                        System.out.println("ADDING " + param);
+                        ids.add(param);
+                    }//End else
+                    break;
+            }//End switch
+        }//End for
+
+        //Assign new data to user
+        System.out.println("AFTER: " + ids.toString());
+        this.user.setPlayers(ids.toArray(new String[ids.size()]));
+        this.todo.clear();
+        this.rAdapter.notifyDataSetChanged();
+    }//End _save_changes
 
     private void closeKeyboard()
     {

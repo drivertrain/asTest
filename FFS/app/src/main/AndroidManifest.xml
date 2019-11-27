@@ -14,13 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PickPlayers"/>
+        <activity android:name=".PickScoring"></activity>
+        <activity android:name=".PickPlayers" />
         <activity android:name=".RegisterPage" />
         <activity android:name=".LoginPage" />
-        <activity android:name=".PlayerDialog"/>
+        <activity android:name=".PlayerDialog" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

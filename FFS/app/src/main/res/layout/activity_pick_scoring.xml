@@ -1,10 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background"
     tools:context=".PickScoring">
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:onClick="_next_clicked"
+        android:text="@string/next_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/statScrollView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </Button>
+
+    <ScrollView
+        android:id="@+id/statScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="82dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/passCompletionCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pass_comp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/passYardsCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/pass_yds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/passCompletionCheck"
+                app:layout_constraintTop_toBottomOf="@id/passCompletionCheck" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/passTDSCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/pass_tds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/passYardsCheck"
+                app:layout_constraintTop_toBottomOf="@id/passYardsCheck" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/intThrown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/pass_ints"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/passTDSCheck"
+                app:layout_constraintTop_toBottomOf="@id/passTDSCheck" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/rushAttempts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/rush_att"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/intThrown"
+                app:layout_constraintTop_toBottomOf="@id/intThrown" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/rushYards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/rush_yds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/rushAttempts"
+                app:layout_constraintTop_toBottomOf="@id/rushAttempts" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/rushTDs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/rush_tds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/rushYards"
+                app:layout_constraintTop_toBottomOf="@id/rushYards" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/recept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/recept"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/rushTDs"
+                app:layout_constraintTop_toBottomOf="@id/rushTDs" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/recYards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/rec_yds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/recept"
+                app:layout_constraintTop_toBottomOf="@id/recept" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/recTDs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/rec_tds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/recYards"
+                app:layout_constraintTop_toBottomOf="@id/recYards" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/returns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/st_ret_yds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/recTDs"
+                app:layout_constraintTop_toBottomOf="@id/recTDs" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/kickRetTD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/kickret_tds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/returns"
+                app:layout_constraintTop_toBottomOf="@id/returns" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/puntRetTD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/puntret_tds"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/kickRetTD"
+                app:layout_constraintTop_toBottomOf="@id/kickRetTD" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/fumbLost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/fumbs_lost"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/puntRetTD"
+                app:layout_constraintTop_toBottomOf="@id/puntRetTD" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/twoPts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/two_pts"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/fumbLost"
+                app:layout_constraintTop_toBottomOf="@id/fumbLost" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/xpa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/xpa"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/twoPts"
+                app:layout_constraintTop_toBottomOf="@id/twoPts" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/fgs"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/fgs"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/xpa"
+                app:layout_constraintTop_toBottomOf="@id/xpa" />
+        </LinearLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

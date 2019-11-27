@@ -1,5 +1,11 @@
 package com.theboyz.ffs;
 
+/*********************************************************
+* ---LOW PRIORITY---
+*
+* Might Develop this into a dialog that appears after save changes so
+* the user can visually see who is being added or dropped
+*************************************************************/
 import android.app.Activity;
 import android.app.Dialog;
 import android.view.KeyboardShortcutGroup;
