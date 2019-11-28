@@ -1,5 +1,6 @@
 package com.theboyz.ffs;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,23 +12,6 @@ import java.util.ArrayList;
 public class PickScoring extends AppCompatActivity
 {
     private ArrayList<CheckBox> fields;
-//    private CheckBox passComp;
-//    private CheckBox passYards;
-//    private CheckBox passTDs;
-//    private CheckBox passInt;
-//    private CheckBox rushAtt;
-//    private CheckBox rushYards;
-//    private CheckBox rushTDs;
-//    private CheckBox recept;
-//    private CheckBox recYards;
-//    private CheckBox recTDs;
-//    private CheckBox totRetYards;
-//    private CheckBox kickRetTDs;
-//    private CheckBox puntRetTDs;
-//    private CheckBox fumbLost;
-//    private CheckBox twoPts;
-//    private CheckBox extraPts;
-//    private CheckBox fieldGoals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,8 +42,38 @@ public class PickScoring extends AppCompatActivity
 
     public void _next_clicked(View v)
     {
+        ArrayList<String> selectedStats = new ArrayList<>();
+        boolean validSelection = false;
         for(CheckBox check: this.fields)
             if (check.isChecked())
-                System.out.println(check.getText().toString() + "is checked");
-    }
+                selectedStats.add(check.getText().toString());
+        if (this.isValid())
+        {
+            this.getIntent().putExtra("selectedStats", selectedStats);
+            setResult(MainActivity.STAT_PICK_SUCCESSFUL, this.getIntent());
+            finish();
+        }//End if
+        else
+        {
+            //Create Dialog and display error
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.none_selected_error);
+
+            // Add ok button
+            builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }//End Else
+    }//End next click
+
+    public boolean isValid()
+    {
+        boolean status = false;
+        for(CheckBox check: this.fields)
+            if (check.isChecked())
+                status = true;
+        return status;
+    }//End isValid
 }

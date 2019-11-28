@@ -31,7 +31,7 @@ public class RegisterPage extends AppCompatActivity
     {
         if (this.registerValidator())
         {
-            System.out.println("CREATE ACCOUNT");
+            setResult(MainActivity.REGISTER_SUCCESSFUL);
             finish();
         }
         else

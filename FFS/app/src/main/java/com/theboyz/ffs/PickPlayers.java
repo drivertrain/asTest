@@ -52,18 +52,18 @@ public class PickPlayers extends AppCompatActivity
             {
                 currentPlayer = players.get(i);
                 currentPlayer.setImageResource(this.getResources().getIdentifier(currentPlayer.getTeam().toLowerCase() + ".png", "drawable", this.getPackageName()));
-            }
+            }//End for
         }//End try
 
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " FROM PICK PLAYERS CREATE USER ACCOUNT");
             finish();
         }//End catch
 
         this.searchField = findViewById(R.id.playerSearchField);
         this.recyclerView = findViewById(R.id.playerView);
-        this.rItemDecorator = new CardViewOffset(this, R.dimen.player_card_offset);
+        this.rItemDecorator = new CardViewOffset(this, R.dimen.card_view_offset);
         this.rLayoutManager = new LinearLayoutManager(this);
         this.rAdapter = new PlayerViewAdapter(players, this.todo, this.user);
 

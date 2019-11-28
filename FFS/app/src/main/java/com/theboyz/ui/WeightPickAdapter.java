@@ -1,36 +1,22 @@
 package com.theboyz.ui;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theboyz.ffs.R;
-import com.theboyz.utils.Helpers;
-import com.theboyz.utils.NFLPlayer;
-import com.theboyz.utils.userAccount;
-
-import org.apache.http.message.BasicNameValuePair;
-
+import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class WeightPickAdapter extends RecyclerView.Adapter <WeightPickAdapter.StatViewHolder>
 {
-    //INTEGER CONSTANTS FOR STATUS CODES
-    public static final int ADD_PLAYER_IN_TODO = 1000;
-    public static final int REMOVE_PLAYER_IN_TODO = 1001;
-    public static final int PLAYER_OWNED = 1010;
-    public static final int PLAYER_NOT_OWNED = 1011;
-
     private ArrayList<String> stats;
+
 //    private userAccount user;
 
     public WeightPickAdapter(ArrayList<String> stats)
@@ -60,7 +46,6 @@ public class WeightPickAdapter extends RecyclerView.Adapter <WeightPickAdapter.S
     {
         return this.stats.size();
     }
-
 
     public static class StatViewHolder extends RecyclerView.ViewHolder
     {

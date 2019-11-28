@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    app:cardCornerRadius="4dp"
+    app:layout_constraintHorizontal_bias="0.5">
+
+    <TextView
+        android:id="@+id/statName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Sample Stat"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true">
+    </TextView>
+
+    <EditText
+        android:id="@+id/statInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@color/white"
+        android:hint="Enter Stat Weight"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+    </EditText>
+</RelativeLayout>
