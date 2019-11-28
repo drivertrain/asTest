@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PickScoring"></activity>
+        <activity android:name=".PickWeights"></activity>
+        <activity android:name=".PickScoring" />
         <activity android:name=".PickPlayers" />
         <activity android:name=".RegisterPage" />
         <activity android:name=".LoginPage" />

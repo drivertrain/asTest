@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class PlayerCardOffset extends RecyclerView.ItemDecoration
+public class CardViewOffset extends RecyclerView.ItemDecoration
 {
 
     private int ItemOffset;
 
-    public PlayerCardOffset(int itemOffset)
+    public CardViewOffset(int itemOffset)
     {
         this.ItemOffset = itemOffset;
     }
 
-    public PlayerCardOffset(@NonNull Context context, @DimenRes int itemOffsetId)
+    public CardViewOffset(@NonNull Context context, @DimenRes int itemOffsetId)
     {
         this(context.getResources().getDimensionPixelSize(itemOffsetId));
     }

@@ -18,7 +18,7 @@
     <string name="changes_pending_text">CHANGES PENDING</string>
     <string name="next_button_text">NEXT</string>
 
-<!--    Strings For Pick Scoring Page   -->
+    <!--    Strings For Pick Scoring Page   -->
     <string name="pass_comp">Pass Completions</string>
     <string name="pass_yds">Pass Yards</string>
     <string name="pass_tds">Pass Touchdowns</string>

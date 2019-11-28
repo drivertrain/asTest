@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.theboyz.ui.PlayerCardOffset;
+import com.theboyz.ui.CardViewOffset;
 import com.theboyz.ui.PlayerViewAdapter;
 import com.theboyz.utils.*;
 import org.apache.http.NameValuePair;
@@ -63,7 +63,7 @@ public class PickPlayers extends AppCompatActivity
 
         this.searchField = findViewById(R.id.playerSearchField);
         this.recyclerView = findViewById(R.id.playerView);
-        this.rItemDecorator = new PlayerCardOffset(this, R.dimen.player_card_offset);
+        this.rItemDecorator = new CardViewOffset(this, R.dimen.player_card_offset);
         this.rLayoutManager = new LinearLayoutManager(this);
         this.rAdapter = new PlayerViewAdapter(players, this.todo, this.user);
 
