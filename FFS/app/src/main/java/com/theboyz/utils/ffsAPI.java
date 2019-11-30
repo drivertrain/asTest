@@ -38,7 +38,7 @@ public class ffsAPI
         return rVal;
     }//End authenticate
 
-    public static boolean updateLeagueConfig(userAccount user) throws Exception
+    public static boolean updateUserConfig(userAccount user) throws Exception
     {
 
         boolean status = true;
@@ -50,6 +50,9 @@ public class ffsAPI
         params.put("json", user.genAccJson().toString());
 
         JSONObject response = new apiPost().execute(params).get();
+
+        if (!(response.getString("status").equals("success")))
+            status = false;
 
         return status;
     }//End updateLeagueConfig

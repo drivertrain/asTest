@@ -27,10 +27,14 @@ public class userAccount
         loggedIn = false;
     }//end default constructor
 
-    public userAccount(String token)
+    public userAccount(String token, int id)
     {
         this.loggedIn = true;
         this.token = token;
+        this.playerIDS = new String[0];
+        this.scoredStats = new String[0];
+        this.statWeights = new double[0];
+        this.userID = id;
     }
 
     //Setters
@@ -75,6 +79,7 @@ public class userAccount
             this.playerIDS = this.parseStr(user.getString("playerIDS"));
             this.scoredStats = this.parseStr(user.getString("scoredStats"));
             this.statWeights = this.parseDouble(user.getString("statWeights"));
+            this.userID = user.getInt("id");
         }//End
         catch(Exception e)
         {

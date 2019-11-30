@@ -45,7 +45,7 @@ public class PickPlayers extends AppCompatActivity
         try
         {
             JSONObject loginResponse = new JSONObject(getIntent().getStringExtra("loginResponse"));
-            this.user = new userAccount(loginResponse.getString("token"));
+            this.user = new userAccount(loginResponse.getString("token"), loginResponse.getInt("id"));
 
             JSONObject userConfig = ffsAPI.getUserConfig(this.user);
 
@@ -127,6 +127,8 @@ public class PickPlayers extends AppCompatActivity
         this.user.setPlayers(ids.toArray(new String[ids.size()]));
         this.todo.clear();
         this.rAdapter.notifyDataSetChanged();
+        setResult(MainActivity.PICK_PLAYER_SUCCESSFUL, this.getIntent());
+        finish();
     }//End _save_changes
 
     private void closeKeyboard()

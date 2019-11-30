@@ -116,15 +116,22 @@ public class MainActivity extends AppCompatActivity
                 case (WEIGHT_PICK_REQUEST_CODE):
                     if (resultCode == WEIGHT_PICK_SUCCESSFUL)
                     {
+                        userAccount user = this.getUser();
                         String [] scoredStats = data.getStringArrayExtra("scoredStats");
                         double [] statWeights = data.getDoubleArrayExtra("statWeights");
-                        userAccount user = this.getUser();
 
                         if (user != null)
                         {
                             user.setStats(scoredStats);
                             user.setWeights(statWeights);
-                            ffsAPI.updateLeagueConfig(user);
+                            ffsAPI.updateUserConfig(user);
+
+                            //Go To Pick Players
+                            Intent nextPage = new Intent(this, PickPlayers.class);
+                            nextPage.putExtra("loginResponse", this.loginResponse);
+
+                            //Start next activity
+                            startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
                         }//End if
 
                     }//END IF
@@ -138,7 +145,8 @@ public class MainActivity extends AppCompatActivity
                     }//End if
                     else if(resultCode == PICK_PLAYER_SUCCESSFUL)
                     {
-                        String [] playerIDS = data.getStringArrayExtra("playerIDS");
+                        userAccount user = this.getUser();
+                        ffsAPI.updateUserConfig(user);
                     }//END ELSE IF
 
             }//End switch
@@ -162,7 +170,7 @@ public class MainActivity extends AppCompatActivity
         try
         {
             responseJSON = new JSONObject(this.loginResponse);
-            user = new userAccount(responseJSON.getString("token"));
+            user = new userAccount(responseJSON.getString("token"), responseJSON.getInt("id"));
         }//End try
         catch (Exception e)
         {
@@ -176,4 +184,5 @@ public class MainActivity extends AppCompatActivity
     {
         return;
     }//End userNotLoggedInError
+
 }//End class MainActivity
