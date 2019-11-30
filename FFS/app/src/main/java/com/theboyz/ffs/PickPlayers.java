@@ -44,21 +44,25 @@ public class PickPlayers extends AppCompatActivity
 
         try
         {
-            this.user = new userAccount(new JSONObject(getIntent().getStringExtra("token")).getString("token"));
-            this.user.configureUser(ffsAPI.getUserConfig(this.user));
-            players = ffsAPI.getPlayers(this.user, "2019");
-            NFLPlayer currentPlayer;
-            for (int i = 0; i < players.size(); i++)
+            JSONObject loginResponse = new JSONObject(getIntent().getStringExtra("loginResponse"));
+            this.user = new userAccount(loginResponse.getString("token"));
+
+            JSONObject userConfig = ffsAPI.getUserConfig(this.user);
+
+            if (userConfig == null)
             {
-                currentPlayer = players.get(i);
-                currentPlayer.setImageResource(this.getResources().getIdentifier(currentPlayer.getTeam().toLowerCase() + ".png", "drawable", this.getPackageName()));
-            }//End for
+                setResult(MainActivity.USER_NOT_CONFIGURED, this.getIntent());
+                finish();
+                return;
+            }//END IF
+
+            this.user.configureUser(userConfig);
+            players = ffsAPI.getPlayers(this.user, "2019");
         }//End try
 
         catch(Exception e)
         {
             System.out.println(e.getMessage() + " FROM PICK PLAYERS CREATE USER ACCOUNT");
-            finish();
         }//End catch
 
         this.searchField = findViewById(R.id.playerSearchField);

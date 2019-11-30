@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.theboyz.ui.CardViewOffset;
 import com.theboyz.ui.WeightPickAdapter;
+import com.theboyz.utils.Helpers;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class PickWeights extends AppCompatActivity
     private RecyclerView.LayoutManager rLayoutManager;
     private RecyclerView.ItemDecoration rItemDecorator;
     private Button submitButton;
+    private String [] scoredStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,21 +56,42 @@ public class PickWeights extends AppCompatActivity
         {
             WeightPickAdapter.StatViewHolder test = (WeightPickAdapter.StatViewHolder) this.recyclerView.getChildViewHolder(this.recyclerView.getChildAt(i));
             currentItem = test.statInput.getText().toString();
+
+
             if (currentItem.isEmpty())
             {
                 error = true;
                 break;
             }//End if
+
             else if (currentItem.contains("/"))
             {
                 String [] ops = currentItem.split("/");
                 Double op1 = Double.parseDouble(ops[0]);
                 Double op2 = Double.parseDouble(ops[1]);
                 weights.add(op1 / op2);
-            }
+            }//End else if
+
+            //
             else
             {
-                weights.add(Double.parseDouble(currentItem));
+                try
+                {
+                    weights.add(Double.parseDouble(currentItem));
+                }
+                catch(Exception e)
+                {
+                    //Create Dialog and display error
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(R.string.invalid_input);
+
+                    // Add ok button
+                    builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
             }//End else
         }//End for
 
@@ -75,7 +99,7 @@ public class PickWeights extends AppCompatActivity
         {
             //Create Dialog and display error
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.login_error);
+            builder.setMessage(R.string.invalid_input);
 
             // Add ok button
             builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
@@ -85,8 +109,15 @@ public class PickWeights extends AppCompatActivity
         }//End if
         else
         {
-            for (Double val: weights)
-                System.out.println(val);
+            String [] scoredStats = Helpers.convertScoringList(this.getIntent().getStringArrayListExtra("selectedStats"));
+            Double[] statWeights  = weights.toArray(new Double [scoredStats.length]);
+
+            Intent intent = this.getIntent();
+            intent.putExtra("scoredStats", scoredStats);
+            intent.putExtra("statWeights", Helpers.DoubleToPrimitive(statWeights));
+            setResult(MainActivity.WEIGHT_PICK_SUCCESSFUL, this.getIntent());
+            finish();
+
         }
     }//End _save_changes
 

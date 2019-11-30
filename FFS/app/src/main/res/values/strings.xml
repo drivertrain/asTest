@@ -18,6 +18,7 @@
     <string name="save_button_text">SAVE CHANGES</string>
     <string name="changes_pending_text">CHANGES PENDING</string>
     <string name="next_button_text">NEXT</string>
+    <string name="double_error">Values must be numeric like \'5\' or \'1/10\'</string>
 
     <!--    Strings For Pick Scoring Page   -->
     <string name="pass_comp">Pass Completions</string>

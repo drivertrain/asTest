@@ -37,7 +37,7 @@ public class LoginPage extends AppCompatActivity
 
          if (response != null)
          {
-            this.getIntent().putExtra("token", response.toString());
+            this.getIntent().putExtra("loginResponse", response.toString());
             setResult(MainActivity.LOGIN_SUCCESSFUL, this.getIntent());
             finish();
          }//End if

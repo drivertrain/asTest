@@ -24,12 +24,11 @@ public class RegisterPage extends AppCompatActivity
         this.pass = findViewById(R.id.pwField);
         this.confPass = findViewById(R.id.confPwField);
         this.userName = findViewById(R.id.nameField);
-
-    }
+    }//end onCreate
 
     public void _registerClick(View view)
     {
-        if (this.registerValidator())
+        if (this.registerValidator() && ffsAPI.register(this.email.getText().toString(), this.userName.getText().toString(), this.pass.getText().toString()))
         {
             setResult(MainActivity.REGISTER_SUCCESSFUL);
             finish();
@@ -39,48 +38,36 @@ public class RegisterPage extends AppCompatActivity
             //Create Dialog and display error
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.invalid_input);
-            // Add ok button
-            builder.setPositiveButton(R.string.okay_button, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    dialog.dismiss();
-                }
-            });
 
-            //Could create no button here but no need to
-//            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    // User cancelled the dialog
-//                }
-//            });
+            // Add ok button
+            builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
 
             AlertDialog dialog = builder.create();
             dialog.show();
         }//End else
-
-
-    }
+    }//End _register_click
 
     private boolean registerValidator()
     {
         boolean status = true;
         try
         {
+            //Make sure there are no empty fields
             if (email.getText().toString().length() == 0)
                 status = false;
             if (pass.getText().toString().length() == 0)
                 status = false;
             if (this.userName.getText().toString().length() == 0)
-            {
-                if (confPass.getText().toString().length() == 0)
-                    status = false;
                 status = false;
-            }
+
+
+            //Make sure passwords match
             if (!(confPass.getText().toString().equals(pass.getText().toString())))
                 status = false;
+
         }
         catch(Exception e)
         { System.out.println(e.getMessage()); status=false; }
         return status;
-    }
+    }//End registerValidator
 }
