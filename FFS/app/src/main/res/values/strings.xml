@@ -19,6 +19,7 @@
     <string name="changes_pending_text">CHANGES PENDING</string>
     <string name="next_button_text">NEXT</string>
     <string name="double_error">Values must be numeric like \'5\' or \'1/10\'</string>
+    <string name="view_button_text">View Player</string>
 
     <!--    Strings For Pick Scoring Page   -->
     <string name="pass_comp">Pass Completions</string>
@@ -39,10 +40,13 @@
     <string name="xpa">Extra Points</string>
     <string name="fgs">Field Goals</string>
 
-    <!--    String for Pick Weights Page   -->
+    <!--    Strings for Pick Weights Page   -->
     <string name="pick_weights_label">Set The Value for Each Stat</string>
 
 
+    <!--   Strings for Profile Page    -->
+    <string name="change_team_text">Add/Remove Players</string>
+    <string name="change_scoring_text">Change Scoring Settings</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>

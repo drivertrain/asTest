@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/view_button_text"
-            android:id="@+id/viewButton">
+            android:text="@string/add_button_text"
+            android:id="@+id/addButton">
         </Button>
 
     </RelativeLayout>

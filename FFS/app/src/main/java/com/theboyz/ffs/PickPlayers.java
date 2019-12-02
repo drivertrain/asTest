@@ -13,9 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.theboyz.ui.CardViewOffset;
-import com.theboyz.ui.PlayerViewAdapter;
+import com.theboyz.ui.PickPlayerAdapter;
 import com.theboyz.utils.*;
-import org.apache.http.NameValuePair;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -26,7 +25,7 @@ public class PickPlayers extends AppCompatActivity
 {
     private EditText searchField;
     private RecyclerView recyclerView;
-    private PlayerViewAdapter rAdapter;
+    private PickPlayerAdapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private RecyclerView.ItemDecoration rItemDecorator;
     private ArrayList<NFLPlayer> players;
@@ -69,7 +68,7 @@ public class PickPlayers extends AppCompatActivity
         this.recyclerView = findViewById(R.id.playerView);
         this.rItemDecorator = new CardViewOffset(this, R.dimen.card_view_offset);
         this.rLayoutManager = new LinearLayoutManager(this);
-        this.rAdapter = new PlayerViewAdapter(players, this.todo, this.user);
+        this.rAdapter = new PickPlayerAdapter(players, this.todo, this.user);
 
         this.recyclerView.setLayoutManager(this.rLayoutManager);
         this.recyclerView.addItemDecoration(this.rItemDecorator);
@@ -143,10 +142,10 @@ public class PickPlayers extends AppCompatActivity
 
     public class PlayerFilter implements TextWatcher
     {
-        PlayerViewAdapter adapter;
+        PickPlayerAdapter adapter;
         EditText searchField;
 
-        public PlayerFilter(PlayerViewAdapter adapter, EditText searchField)
+        public PlayerFilter(PickPlayerAdapter adapter, EditText searchField)
         {
             this.adapter = adapter;
             this.searchField = searchField;

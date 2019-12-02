@@ -21,7 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.ViewHolder>
+public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.ViewHolder>
 {
     //INTEGER CONSTANTS FOR STATUS CODES
     public static final int ADD_PLAYER_IN_TODO = 1000;
@@ -33,7 +33,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
     private ArrayList<BasicNameValuePair> todo;
     private userAccount user;
 
-    public PlayerViewAdapter(ArrayList<NFLPlayer> playerList, ArrayList<BasicNameValuePair> todo, userAccount user)
+    public PickPlayerAdapter(ArrayList<NFLPlayer> playerList, ArrayList<BasicNameValuePair> todo, userAccount user)
     {
         this.playerList = playerList;
         this.masterPlayerList = playerList;
@@ -45,7 +45,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_view_card, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pick_player_card, parent, false);
         ViewHolder viewHolder = new ViewHolder(v, this.todo, this.user, this);
         return viewHolder;
     }
@@ -95,7 +95,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         //CONSTANTS
-        private final PlayerViewAdapter adapter;
+        private final PickPlayerAdapter adapter;
         public final ArrayList<BasicNameValuePair> todo;
         public final userAccount user;
         private final Context context;
@@ -109,7 +109,7 @@ public class PlayerViewAdapter extends RecyclerView.Adapter <PlayerViewAdapter.V
         public NFLPlayer player;
 
 
-        public ViewHolder(@NonNull View itemView, ArrayList<BasicNameValuePair> todo, userAccount user, PlayerViewAdapter parent)
+        public ViewHolder(@NonNull View itemView, ArrayList<BasicNameValuePair> todo, userAccount user, PickPlayerAdapter parent)
         {
             super(itemView);
 
