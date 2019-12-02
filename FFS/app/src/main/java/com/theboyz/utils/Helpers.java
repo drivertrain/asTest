@@ -193,10 +193,11 @@ public class Helpers
 
     public static double[] DoubleToPrimitive(Double[] in)
     {
-        double [] out = new double[in.length];
+        double[] out = new double[in.length];
         for (int i = 0; i < in.length; i++)
             out[i] = in[i];
 
         return out;
     }
+
 }

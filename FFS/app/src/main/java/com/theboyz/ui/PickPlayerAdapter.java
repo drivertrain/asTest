@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.theboyz.ffs.R;
 import com.theboyz.utils.Helpers;
@@ -21,7 +22,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.ViewHolder>
+public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.PickViewHolder>
 {
     //INTEGER CONSTANTS FOR STATUS CODES
     public static final int ADD_PLAYER_IN_TODO = 1000;
@@ -43,26 +44,24 @@ public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.V
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public PickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pick_player_card, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v, this.todo, this.user, this);
+        PickViewHolder viewHolder = new PickViewHolder(v, this.todo, this.user, this);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull PickViewHolder viewHolder, int position)
     {
         NFLPlayer currentItem = this.playerList.get(position);
-        holder.playerName.setText(currentItem.getName());
-        holder.playerScore.setText(currentItem.getScore());
-        holder.player = currentItem;
-        holder.player.setImageResource(Helpers.getImageId(holder.player.getTeam()));
-        holder.playerImg.setImageResource(holder.player.getImageResource());
-        holder.setButtonText();
-
-
-        holder.setPosition(position);
+        viewHolder.playerName.setText(currentItem.getName());
+        viewHolder.playerScore.setText(currentItem.getScore());
+        viewHolder.player = currentItem;
+        viewHolder.player.setImageResource(Helpers.getImageId(viewHolder.player.getTeam()));
+        viewHolder.playerImg.setImageResource(viewHolder.player.getImageResource());
+        viewHolder.setButtonText();
+        viewHolder.setPosition(position);
     }
 
     public void filterPlayers(String term)
@@ -91,8 +90,13 @@ public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.V
         return this.playerList.size();
     }
 
+    public String getAmtDisplayedItems()
+    {
+        return "Displaying " + this.playerList.size() + " out of " + this.masterPlayerList.size();
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
+
+    public static class PickViewHolder extends ViewHolder
     {
         //CONSTANTS
         private final PickPlayerAdapter adapter;
@@ -109,7 +113,7 @@ public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.V
         public NFLPlayer player;
 
 
-        public ViewHolder(@NonNull View itemView, ArrayList<BasicNameValuePair> todo, userAccount user, PickPlayerAdapter parent)
+        public PickViewHolder(@NonNull View itemView, ArrayList<BasicNameValuePair> todo, userAccount user, PickPlayerAdapter parent)
         {
             super(itemView);
 

@@ -39,7 +39,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamView" />
+        app:layout_constraintTop_toBottomOf="@+id/teamView"
+        android:onClick="_change_team"/>
 
     <Button
         android:id="@+id/changeScoring"
@@ -50,6 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeTeam" />
+        app:layout_constraintTop_toBottomOf="@+id/changeTeam"
+        android:onClick="_change_scoring"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

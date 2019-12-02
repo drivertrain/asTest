@@ -23,9 +23,6 @@ public class PickWeights extends AppCompatActivity
     private WeightPickAdapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private RecyclerView.ItemDecoration rItemDecorator;
-    private Button submitButton;
-    private String [] scoredStats;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,7 +36,7 @@ public class PickWeights extends AppCompatActivity
         this.recyclerView.setLayoutManager(this.rLayoutManager);
         this.recyclerView.addItemDecoration(this.rItemDecorator);
         this.recyclerView.setAdapter(this.rAdapter);
-        this.submitButton = findViewById(R.id.saveWeightsButton);
+//        this.submitButton = findViewById(R.id.saveWeightsButton);
         this.recyclerView.setItemViewCacheSize(this.rAdapter.getItemCount());
     }
 
@@ -55,44 +52,54 @@ public class PickWeights extends AppCompatActivity
         for (int i = 0; i < this.rAdapter.getItemCount(); i++)
         {
             WeightPickAdapter.StatViewHolder test = (WeightPickAdapter.StatViewHolder) this.recyclerView.getChildViewHolder(this.recyclerView.getChildAt(i));
-            currentItem = test.statInput.getText().toString();
-
-
-            if (currentItem.isEmpty())
+            try
             {
-                error = true;
-                break;
-            }//End if
+                currentItem = test.statInput.getText().toString();
 
-            else if (currentItem.contains("/"))
-            {
-                String [] ops = currentItem.split("/");
-                Double op1 = Double.parseDouble(ops[0]);
-                Double op2 = Double.parseDouble(ops[1]);
-                weights.add(op1 / op2);
-            }//End else if
 
-            //
-            else
-            {
-                try
+
+                if (currentItem.isEmpty())
                 {
-                    weights.add(Double.parseDouble(currentItem));
-                }
-                catch(Exception e)
+                    error = true;
+                    break;
+                }//End if
+
+                else if (currentItem.contains("/"))
                 {
-                    //Create Dialog and display error
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage(R.string.invalid_input);
+                    String [] ops = currentItem.split("/");
+                    Double op1 = Double.parseDouble(ops[0]);
+                    Double op2 = Double.parseDouble(ops[1]);
+                    weights.add(op1 / op2);
+                }//End else if
 
-                    // Add ok button
-                    builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
+                //
+                else
+                {
+                    try
+                    {
+                        weights.add(Double.parseDouble(currentItem));
+                    }
+                    catch(Exception e)
+                    {
+                        //Create Dialog and display error
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage(R.string.invalid_input);
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                        // Add ok button
+                        builder.setPositiveButton(R.string.okay_button, (dialog, id) -> dialog.dismiss());
 
-            }//End else
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                }//End else
+
+            }
+            catch(Exception e)
+            {
+                for (StackTraceElement el: e.getStackTrace())
+                    System.out.println(el.toString());
+            }
         }//End for
 
         if (error)

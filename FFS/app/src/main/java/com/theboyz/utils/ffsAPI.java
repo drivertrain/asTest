@@ -54,6 +54,9 @@ public class ffsAPI
         if (!(response.getString("status").equals("success")))
             status = false;
 
+        //Reflect new changes locally
+        user.configureUser(ffsAPI.getUserConfig(user));
+
         return status;
     }//End updateLeagueConfig
 
@@ -78,6 +81,29 @@ public class ffsAPI
         }
         return rVal;
     }//End get players
+
+    public static ArrayList<NFLPlayer> getTeam(userAccount user) throws Exception
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("URL", URL + "api/get_team");
+        params.put("token", user.getToken());
+        params.put("datatype", "keyvalue");
+
+
+        JSONObject response = new apiGet().execute(params).get();
+        if (!(response.getString("status").equals("success")))
+            return null;
+
+        JSONObject players = response.getJSONObject("data");
+        ArrayList<String> playerKeys = (ArrayList) Helpers.getListFromIterator(players.keys());
+        ArrayList<NFLPlayer> rVal = new ArrayList<>();
+        for (int i = 0; i < playerKeys.size(); i++)
+        {
+            rVal.add(new NFLPlayer(players.getJSONObject(playerKeys.get(i))));
+        }
+        return rVal;
+    }//End get Team
+
 
 
     public static JSONObject getUserConfig(userAccount user) throws Exception

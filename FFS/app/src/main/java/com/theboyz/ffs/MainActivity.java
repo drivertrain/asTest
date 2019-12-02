@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     public static final int STAT_PICK_REQUEST_CODE = 4000;
     public static final int WEIGHT_PICK_REQUEST_CODE = 5000;
     public static final int PICK_PLAYER_REQUEST = 6000;
+    public static final int PROFILE_REQUEST = 1000;
 
 
     //SUCCESS CODES
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity
     public static final int STAT_PICK_SUCCESSFUL = 4010;
     public static final int WEIGHT_PICK_SUCCESSFUL = 5010;
     public static final int PICK_PLAYER_SUCCESSFUL = 6010;
+    public static final int PROFILE_NEXT_TASK = 1010;
 
 
     //ERROR CODES
     public static final int USER_NOT_CONFIGURED = 9001;
+    public static final int USER_HAS_NO_TEAM = 6001;
 
     private String loginResponse;
 
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         try
         {
             //SWITCH BASED ON WHICH REQUEST WAS MADE
+            Intent nextPage;
             switch (requestCode)
             {
                 //Handle register request
@@ -84,78 +88,141 @@ public class MainActivity extends AppCompatActivity
                         this.loginResponse = data.getStringExtra("loginResponse");
 
                         //Create next activity
-                        Intent nextPage = new Intent(this, PickPlayers.class);
+                        nextPage = new Intent(this, ProfilePage.class);
                         nextPage.putExtra("loginResponse", this.loginResponse);
 
                         //Start next activity
-                        startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
+                        startActivityForResult(nextPage, PROFILE_REQUEST);
                     }//End if
                     break;
 
                 //Handle the first time a user has logged in
                 case (FIRST_LOGIN_REQUEST_CODE):
                     //Since it is the users first time logging in we need to force them to select some set of scoring stats/weights
-                    if (resultCode == LOGIN_SUCCESSFUL)
+                    switch (resultCode)
                     {
-                        startActivityForResult(new Intent(this, PickScoring.class), STAT_PICK_REQUEST_CODE);
-                    }//End if
-                    break;
-
-                //Handle Selection of Stats
-                case (STAT_PICK_REQUEST_CODE):
-                    if (resultCode == STAT_PICK_SUCCESSFUL)
-                    {
-                        //Start The weight pick segment
-                        Intent nextPage = new Intent(this, PickWeights.class);
-                        nextPage.putExtra("selectedStats", data.getStringArrayListExtra("selectedStats"));
-                        startActivityForResult(nextPage, WEIGHT_PICK_REQUEST_CODE);
-
-                    }//End if
-                    break;
-
-                case (WEIGHT_PICK_REQUEST_CODE):
-                    if (resultCode == WEIGHT_PICK_SUCCESSFUL)
-                    {
-                        userAccount user = this.getUser();
-                        String [] scoredStats = data.getStringArrayExtra("scoredStats");
-                        double [] statWeights = data.getDoubleArrayExtra("statWeights");
-
-                        if (user != null)
-                        {
-                            user.setStats(scoredStats);
-                            user.setWeights(statWeights);
-                            ffsAPI.updateUserConfig(user);
-
-                            //Go To Pick Players
-                            Intent nextPage = new Intent(this, PickPlayers.class);
+                        case LOGIN_SUCCESSFUL:
+                            nextPage = new Intent(this, PickScoring.class);
                             nextPage.putExtra("loginResponse", this.loginResponse);
+                            startActivityForResult(nextPage, FIRST_LOGIN_REQUEST_CODE);
+                            break;
 
-                            //Start next activity
-                            startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
-                        }//End if
+                        case STAT_PICK_SUCCESSFUL:
+                            nextPage = new Intent(this, PickWeights.class);
+                            nextPage.putExtra("loginResponse", this.loginResponse);
+                            nextPage.putExtra("selectedStats", data.getStringArrayListExtra("selectedStats"));
+                            startActivityForResult(nextPage, FIRST_LOGIN_REQUEST_CODE);
+                            break;
 
-                    }//END IF
+                        case WEIGHT_PICK_SUCCESSFUL:
 
+                            userAccount user = this.getUser();
+                            String[] scoredStats = data.getStringArrayExtra("scoredStats");
+                            double[] statWeights = data.getDoubleArrayExtra("statWeights");
 
-                case (PICK_PLAYER_REQUEST):
-                    if (resultCode == USER_NOT_CONFIGURED)
+                            if (user != null)
+                            {
+                                user.setStats(scoredStats);
+                                user.setWeights(statWeights);
+                                ffsAPI.updateUserConfig(user);
+
+                                nextPage = new Intent(this, PickPlayers.class);
+                                nextPage.putExtra("loginResponse", this.loginResponse);
+                                startActivityForResult(nextPage, FIRST_LOGIN_REQUEST_CODE);
+                            }
+                            break;
+
+                        case PICK_PLAYER_SUCCESSFUL:
+                            nextPage = new Intent(this, ProfilePage.class);
+                            nextPage.putExtra("loginResponse", this.loginResponse);
+                            startActivityForResult(nextPage, PROFILE_REQUEST);
+                            break;
+                    }
+                    break;
+
+            //Handle Selection of Stats
+            case (STAT_PICK_REQUEST_CODE):
+                if (resultCode == STAT_PICK_SUCCESSFUL)
+                {
+                    //Start The weight pick segment
+                    nextPage = new Intent(this, PickWeights.class);
+                    nextPage.putExtra("selectedStats", data.getStringArrayListExtra("selectedStats"));
+                    startActivityForResult(nextPage, WEIGHT_PICK_REQUEST_CODE);
+
+                }//End if
+                break;
+
+            case (WEIGHT_PICK_REQUEST_CODE):
+                if (resultCode == WEIGHT_PICK_SUCCESSFUL)
+                {
+                    userAccount user = this.getUser();
+                    String [] scoredStats = data.getStringArrayExtra("scoredStats");
+                    double [] statWeights = data.getDoubleArrayExtra("statWeights");
+
+                    if (user != null)
                     {
-                        //IF USER IS NOT CONFIGURED GO TO STAT PICK PAGE AND MAKE USER CONFIGURE THEIR ACCOUNT
-                        startActivityForResult(new Intent(this, PickScoring.class), STAT_PICK_REQUEST_CODE);
-                    }//End if
-                    else if(resultCode == PICK_PLAYER_SUCCESSFUL)
-                    {
-                        userAccount user = this.getUser();
+                        user.setStats(scoredStats);
+                        user.setWeights(statWeights);
                         ffsAPI.updateUserConfig(user);
-                    }//END ELSE IF
 
+                        //Go To Pick Players
+                        nextPage = new Intent(this, PickPlayers.class);
+                        nextPage.putExtra("loginResponse", this.loginResponse);
+
+                        //Start next activity
+                        startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
+                    }//End if
+
+                }//END IF
+                break;
+
+
+            case (PICK_PLAYER_REQUEST):
+                if (resultCode == USER_NOT_CONFIGURED)
+                {
+                    //IF USER IS NOT CONFIGURED GO TO STAT PICK PAGE AND MAKE USER CONFIGURE THEIR ACCOUNT
+                    nextPage = new Intent(this, ProfilePage.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(new Intent(this, PickScoring.class), STAT_PICK_REQUEST_CODE);
+
+                }//End if
+                else if (resultCode == PICK_PLAYER_SUCCESSFUL)
+                {
+                    userAccount user = this.getUser();
+                    ffsAPI.updateUserConfig(user);
+                    nextPage = new Intent(this, ProfilePage.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, PROFILE_REQUEST);
+                }//END ELSE IF
+                break;
+
+            case (PROFILE_REQUEST):
+                if (resultCode == PROFILE_NEXT_TASK)
+                {
+                    System.out.println("NEXT TASK");
+                } else if (resultCode == USER_NOT_CONFIGURED)
+                {
+                    //IF USER IS NOT CONFIGURED GO TO STAT PICK PAGE AND MAKE USER CONFIGURE THEIR ACCOUNT
+                    nextPage = new Intent(this, PickScoring.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, STAT_PICK_REQUEST_CODE);
+                }//End if
+                else if (resultCode == USER_HAS_NO_TEAM)
+                {
+                    nextPage = new Intent(this, PickPlayers.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
+                }
+                break;
             }//End switch
-
         }//End try
-        catch (Exception e)
+        catch(Exception e)
         {
-            System.out.println("Couldn't Handle Callback" + e.getMessage());
+            System.out.println("Couldn't Handle Callback");
+            for (StackTraceElement el : e.getStackTrace())
+                System.out.println(el.toString());
         }//End catch
+
     }//End on activityResult
 
 

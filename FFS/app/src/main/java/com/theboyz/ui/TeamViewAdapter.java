@@ -21,26 +21,23 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TeamViewAdapter extends RecyclerView.Adapter <PickPlayerAdapter.ViewHolder>
+public class TeamViewAdapter extends RecyclerView.Adapter <TeamViewAdapter.TeamViewHolder>
 {
-   private ArrayList<NFLPlayer> masterPlayerList, playerList;
-   private ArrayList<BasicNameValuePair> todo;
+   private ArrayList<NFLPlayer>  playerList;
    private userAccount user;
 
-   public TeamViewAdapter(ArrayList<NFLPlayer> playerList, ArrayList<BasicNameValuePair> todo, userAccount user)
+   public TeamViewAdapter(ArrayList<NFLPlayer> playerList, userAccount user)
    {
       this.playerList = playerList;
-      this.masterPlayerList = playerList;
-      this.todo = todo;
       this.user = user;
    }
 
    @NonNull
    @Override
-   public TeamViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+   public TeamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
    {
       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_view_card, parent, false);
-      TeamViewHolder viewHolder = new TeamViewHolder(v, this.todo, this.user, this);
+      TeamViewHolder viewHolder = new TeamViewHolder(v, this.user, this);
       return viewHolder;
    }
 
@@ -54,28 +51,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter <PickPlayerAdapter.Vie
       holder.player.setImageResource(Helpers.getImageId(holder.player.getTeam()));
       holder.playerImg.setImageResource(holder.player.getImageResource());
 
-
       holder.setPosition(position);
-   }
-
-   public void filterPlayers(String term)
-   {
-      this.playerList = new ArrayList<>();
-
-      for (int i = 0; i < this.masterPlayerList.size(); i++)
-      {
-         if (this.masterPlayerList.get(i).getName().toLowerCase().contains(term.toLowerCase()))
-            this.playerList.add(this.masterPlayerList.get(i));
-      }//End for
-
-      System.out.println(this.todo.size());
-      notifyDataSetChanged();
-   }
-
-   public void removeFilters()
-   {
-      this.playerList = masterPlayerList;
-      notifyDataSetChanged();
    }
 
    @Override
@@ -100,7 +76,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter <PickPlayerAdapter.Vie
       public NFLPlayer player;
 
 
-      public TeamViewHolder(@NonNull View itemView, ArrayList<BasicNameValuePair> todo, userAccount user, TeamViewAdapter parent)
+      public TeamViewHolder(@NonNull View itemView, userAccount user, TeamViewAdapter parent)
       {
          super(itemView);
 
