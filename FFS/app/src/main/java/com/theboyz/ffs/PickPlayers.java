@@ -62,6 +62,7 @@ public class PickPlayers extends AppCompatActivity
         catch(Exception e)
         {
             System.out.println(e.getMessage() + " FROM PICK PLAYERS CREATE USER ACCOUNT");
+            setResult(MainActivity.USER_NOT_CONFIGURED, this.getIntent());
         }//End catch
 
         this.searchField = findViewById(R.id.playerSearchField);
@@ -123,7 +124,7 @@ public class PickPlayers extends AppCompatActivity
 
         //Assign new data to user
         System.out.println("AFTER: " + ids.toString());
-        this.user.setPlayers(ids.toArray(new String[ids.size()]));
+        this.getIntent().putExtra("playerIDS", ids);
         this.todo.clear();
         this.rAdapter.notifyDataSetChanged();
         setResult(MainActivity.PICK_PLAYER_SUCCESSFUL, this.getIntent());

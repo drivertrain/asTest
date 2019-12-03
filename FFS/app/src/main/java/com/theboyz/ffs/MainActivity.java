@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity
                         nextPage = new Intent(this, ProfilePage.class);
                         nextPage.putExtra("loginResponse", this.loginResponse);
 
+                        userAccount usr = this.getUser();
                         //Start next activity
                         startActivityForResult(nextPage, PROFILE_REQUEST);
                     }//End if
@@ -156,21 +157,26 @@ public class MainActivity extends AppCompatActivity
                 if (resultCode == WEIGHT_PICK_SUCCESSFUL)
                 {
                     userAccount user = this.getUser();
+                    JSONObject userConfig = ffsAPI.getUserConfig(user);
+                    user.configureUser(userConfig);
+
+                    //Get changes from last activity
                     String [] scoredStats = data.getStringArrayExtra("scoredStats");
                     double [] statWeights = data.getDoubleArrayExtra("statWeights");
 
                     if (user != null)
                     {
+                        //Apply Changes and update the database
                         user.setStats(scoredStats);
                         user.setWeights(statWeights);
                         ffsAPI.updateUserConfig(user);
 
-                        //Go To Pick Players
-                        nextPage = new Intent(this, PickPlayers.class);
+                        //Go To Profile Page
+                        nextPage = new Intent(this, ProfilePage.class);
                         nextPage.putExtra("loginResponse", this.loginResponse);
 
                         //Start next activity
-                        startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
+                        startActivityForResult(nextPage, PROFILE_REQUEST);
                     }//End if
 
                 }//END IF
@@ -189,6 +195,10 @@ public class MainActivity extends AppCompatActivity
                 else if (resultCode == PICK_PLAYER_SUCCESSFUL)
                 {
                     userAccount user = this.getUser();
+                    String [] playerIDS = data.getStringArrayListExtra("playerIDS").toArray(new String[data.getStringArrayListExtra("playerIDS").size()]);
+                    JSONObject userConfig = ffsAPI.getUserConfig(user);
+                    user.configureUser(userConfig);
+                    user.setPlayers(playerIDS);
                     ffsAPI.updateUserConfig(user);
                     nextPage = new Intent(this, ProfilePage.class);
                     nextPage.putExtra("loginResponse", this.loginResponse);
@@ -212,6 +222,18 @@ public class MainActivity extends AppCompatActivity
                     nextPage = new Intent(this, PickPlayers.class);
                     nextPage.putExtra("loginResponse", this.loginResponse);
                     startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
+                }
+                else if (resultCode == PICK_PLAYER_REQUEST)
+                {
+                    nextPage = new Intent(this, PickPlayers.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, PICK_PLAYER_REQUEST);
+                }
+                else if (resultCode == STAT_PICK_REQUEST_CODE)
+                {
+                    nextPage = new Intent(this, PickScoring.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, STAT_PICK_REQUEST_CODE);
                 }
                 break;
             }//End switch

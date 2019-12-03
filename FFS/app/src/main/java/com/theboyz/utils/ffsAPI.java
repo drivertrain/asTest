@@ -51,11 +51,15 @@ public class ffsAPI
 
         JSONObject response = new apiPost().execute(params).get();
 
+        while (response == null)
+            response = new apiPost().execute(params).get();
+
         if (!(response.getString("status").equals("success")))
             status = false;
 
         //Reflect new changes locally
-        user.configureUser(ffsAPI.getUserConfig(user));
+        JSONObject userConfig = ffsAPI.getUserConfig(user);
+        user.configureUser(userConfig);
 
         return status;
     }//End updateLeagueConfig
@@ -69,6 +73,10 @@ public class ffsAPI
         params.put("year", year);
 
         JSONObject response = new apiPost().execute(params).get();
+
+        while (response == null)
+            response = new apiPost().execute(params).get();
+
         if (!(response.getString("status").equals("success")))
             return null;
 
@@ -91,6 +99,10 @@ public class ffsAPI
 
 
         JSONObject response = new apiGet().execute(params).get();
+
+        while (response == null)
+            response = new apiGet().execute(params).get();
+
         if (!(response.getString("status").equals("success")))
             return null;
 
@@ -114,6 +126,9 @@ public class ffsAPI
         params.put("datatype", "keyvalue");
         JSONObject response = new apiGet().execute(params).get();
 
+        while (response == null)
+            response = new apiGet().execute(params).get();
+
         if (!(response.getString("status").equals("success")))
             response = null;
         else
@@ -135,6 +150,10 @@ public class ffsAPI
             params.put("email", email);
             params.put("password", password);
             JSONObject response = new apiPost().execute(params).get();
+
+            while (response == null)
+                response = new apiPost().execute(params).get();
+
             if (!(response.getString("status").equals("success")))
                 rVal = true;
             else

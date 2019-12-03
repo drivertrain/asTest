@@ -45,6 +45,7 @@ public class ProfilePage extends AppCompatActivity
          this.user = new userAccount(loginResponse.getString("token"), loginResponse.getInt("id"));
          JSONObject userConfig = ffsAPI.getUserConfig(this.user);
          this.user.configureUser(userConfig);
+         System.out.println(userConfig.toString());
 
          if (userConfig == null || (this.user.getPlayerIDS().length == 0))
          {
@@ -63,6 +64,7 @@ public class ProfilePage extends AppCompatActivity
       {
          for (StackTraceElement el: e.getStackTrace())
             System.out.println(el.toString());
+
       }//End catch
 
       this.recyclerView = findViewById(R.id.teamView);
@@ -78,13 +80,14 @@ public class ProfilePage extends AppCompatActivity
 
    public void _change_team(View v)
    {
-      System.out.println("change team pressed");
+      setResult(MainActivity.PICK_PLAYER_REQUEST);
+      finish();
    }//End change team
 
    public void _change_scoring(View v)
    {
-      System.out.println("change scoring pressed");
-
+      setResult(MainActivity.STAT_PICK_REQUEST_CODE);
+      finish();
    }//End change scoring
 
 }//End ProfilePage

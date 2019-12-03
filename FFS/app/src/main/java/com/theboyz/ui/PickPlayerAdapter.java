@@ -87,6 +87,11 @@ public class PickPlayerAdapter extends RecyclerView.Adapter <PickPlayerAdapter.P
     @Override
     public int getItemCount()
     {
+        if (playerList == null)
+        {
+            System.out.println(user.getPlayerIDS());
+            return 0;
+        }
         return this.playerList.size();
     }
 

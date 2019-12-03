@@ -57,7 +57,10 @@ public class TeamViewAdapter extends RecyclerView.Adapter <TeamViewAdapter.TeamV
    @Override
    public int getItemCount()
    {
-      return this.playerList.size();
+      if (this.playerList != null)
+         return this.playerList.size();
+      else
+         return 0;
    }
 
 
