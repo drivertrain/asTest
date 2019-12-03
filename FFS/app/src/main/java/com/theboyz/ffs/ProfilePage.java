@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.theboyz.ui.CardViewOffset;
 import com.theboyz.ui.PickPlayerAdapter;
@@ -32,6 +33,7 @@ public class ProfilePage extends AppCompatActivity
    private ArrayList<NFLPlayer> players;
    private userAccount user;
    private Button changeTeam, changeScoring;
+   private TextView greetingTag;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
@@ -75,6 +77,8 @@ public class ProfilePage extends AppCompatActivity
       this.recyclerView.setLayoutManager(this.rLayoutManager);
       this.recyclerView.addItemDecoration(this.rItemDecorator);
       this.recyclerView.setAdapter(this.rAdapter);
+      this.greetingTag = findViewById(R.id.greetingLabel);
+      this.greetingTag.setText("Welcome " + this.user.getName());
    }//End onCreate
 
 

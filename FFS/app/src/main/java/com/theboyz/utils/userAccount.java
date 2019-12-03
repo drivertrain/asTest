@@ -43,6 +43,7 @@ public class userAccount
     public void setPlayers(String[] playersIn) { this.playerIDS = playersIn; }
 
     //Getters
+    public String getName() { return this.name; }
     public String[] getStats() { return this.scoredStats; }
     public double[] getWeights() { return this.statWeights; }
     public String[] getPlayerIDS() { return this.playerIDS; }
@@ -80,12 +81,15 @@ public class userAccount
             this.scoredStats = this.parseStr(user.getString("scoredStats"));
             this.statWeights = this.parseDouble(user.getString("statWeights"));
             this.userID = user.getInt("id");
+            this.name = user.getString("userName");
         }//End
         catch(Exception e)
         {
             System.out.println(e.getMessage() + "configureUserError");
         }
     }//End configureUser
+
+
 
     /**
      * packString converts a list/array of strings into an array formatted like a list from python
