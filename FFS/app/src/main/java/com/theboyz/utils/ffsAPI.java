@@ -120,8 +120,6 @@ public class ffsAPI
         return rVal;
     }//End get Team
 
-
-
     public static JSONObject getUserConfig(userAccount user) throws Exception
     {
         HashMap<String, String> params = new HashMap<>();
