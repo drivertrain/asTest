@@ -24,6 +24,10 @@ public class ffsAPI
             params.put("email", email);
             params.put("password", password);
             JSONObject response = new apiPost().execute(params).get();
+
+            while (response == null)
+                response = new apiPost().execute(params).get();
+
             if (!(response.getString("status").equals("success")))
                 rVal = null;
             else

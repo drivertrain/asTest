@@ -47,9 +47,8 @@ public class ProfilePage extends AppCompatActivity
          this.user = new userAccount(loginResponse.getString("token"), loginResponse.getInt("id"));
          JSONObject userConfig = ffsAPI.getUserConfig(this.user);
          this.user.configureUser(userConfig);
-         System.out.println(userConfig.toString());
 
-         if (userConfig == null || (this.user.getPlayerIDS().length == 0))
+         if (userConfig == null || (this.user.getPlayerIDS().length == 0) || (this.user.getStats().length == 0) || (this.user.getWeights().length == 0))
          {
             setResult(MainActivity.USER_NOT_CONFIGURED, this.getIntent());
             finish();
