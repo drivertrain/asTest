@@ -72,7 +72,7 @@ public class ProfilePage extends AppCompatActivity
       this.recyclerView = findViewById(R.id.teamView);
       this.rItemDecorator = new CardViewOffset(this, R.dimen.card_view_offset);
       this.rLayoutManager = new LinearLayoutManager(this);
-      this.rAdapter = new TeamViewAdapter(players, this.user);
+      this.rAdapter = new TeamViewAdapter(players, this.user, this);
 
       this.recyclerView.setLayoutManager(this.rLayoutManager);
       this.recyclerView.addItemDecoration(this.rItemDecorator);
@@ -93,6 +93,13 @@ public class ProfilePage extends AppCompatActivity
       setResult(MainActivity.STAT_PICK_REQUEST_CODE);
       finish();
    }//End change scoring
+
+   public void _inspect_player(String playerID)
+   {
+      getIntent().putExtra("playerID", playerID);
+      setResult(MainActivity.INSPECT_PLAYER_REQUEST, getIntent());
+      finish();
+   }
 
 }//End ProfilePage
 

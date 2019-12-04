@@ -20,6 +20,7 @@
     <string name="next_button_text">NEXT</string>
     <string name="double_error">Values must be numeric like \'5\' or \'1/10\'</string>
     <string name="view_button_text">View Player</string>
+    <string name="view_game_text">View Game</string>
 
     <!--    Strings For Pick Scoring Page   -->
     <string name="pass_comp">Pass Completions</string>

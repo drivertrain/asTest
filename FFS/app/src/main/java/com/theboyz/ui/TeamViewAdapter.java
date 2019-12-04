@@ -1,6 +1,5 @@
 package com.theboyz.ui;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +10,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.theboyz.ffs.MainActivity;
 import com.theboyz.ffs.R;
+import com.theboyz.ffs.ProfilePage;
 import com.theboyz.utils.Helpers;
 import com.theboyz.utils.NFLPlayer;
 import com.theboyz.utils.userAccount;
 
-import org.apache.http.message.BasicNameValuePair;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TeamViewAdapter extends RecyclerView.Adapter <TeamViewAdapter.TeamViewHolder>
 {
    private ArrayList<NFLPlayer>  playerList;
    private userAccount user;
+   protected ProfilePage parent;
 
-   public TeamViewAdapter(ArrayList<NFLPlayer> playerList, userAccount user)
+   public TeamViewAdapter(ArrayList<NFLPlayer> playerList, userAccount user, ProfilePage parent)
    {
       this.playerList = playerList;
       this.user = user;
+      this.parent = parent;
    }
 
    @NonNull
@@ -95,8 +95,8 @@ public class TeamViewAdapter extends RecyclerView.Adapter <TeamViewAdapter.TeamV
 
       public void _on_player_click(View v)
       {
-         System.out.println("view clicked");
-      }
+         this.adapter.parent._inspect_player(this.player.getID());
+      }//End _on_player_click
 
 
       public void setPosition(int val) { this.position = val; }

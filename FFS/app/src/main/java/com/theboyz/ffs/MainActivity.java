@@ -17,13 +17,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
 {
     //REQUEST CODES
+    public static final int PROFILE_REQUEST = 1000;
     public static final int REGISTER_REQUEST_CODE = 2000;
     public static final int LOGIN_REQUEST_CODE = 3000;
     public static final int FIRST_LOGIN_REQUEST_CODE = 3001;
     public static final int STAT_PICK_REQUEST_CODE = 4000;
     public static final int WEIGHT_PICK_REQUEST_CODE = 5000;
     public static final int PICK_PLAYER_REQUEST = 6000;
-    public static final int PROFILE_REQUEST = 1000;
+    public static final int INSPECT_PLAYER_REQUEST = 7000;
 
 
     //SUCCESS CODES
@@ -235,12 +236,30 @@ public class MainActivity extends AppCompatActivity
                     nextPage.putExtra("loginResponse", this.loginResponse);
                     startActivityForResult(nextPage, STAT_PICK_REQUEST_CODE);
                 }
+                else if (resultCode == INSPECT_PLAYER_REQUEST)
+                {
+                    nextPage = new Intent(this, InspectPlayer.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    nextPage.putExtra("playerID", data.getStringExtra("playerID"));
+                    startActivityForResult(nextPage, INSPECT_PLAYER_REQUEST);
+                }
                 break;
+
+            case INSPECT_PLAYER_REQUEST:
+                if (resultCode == PROFILE_REQUEST)
+                {
+                    nextPage = new Intent(this, ProfilePage.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, PROFILE_REQUEST);
+                }
+                break;
+
             }//End switch
         }//End try
         catch(Exception e)
         {
             System.out.println("Couldn't Handle Callback");
+            System.out.println(e.getMessage());
             for (StackTraceElement el : e.getStackTrace())
                 System.out.println(el.toString());
         }//End catch

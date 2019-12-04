@@ -137,6 +137,37 @@ public class ffsAPI
         return response;
     }//End getUserConfig
 
+    public static ArrayList<NFLPlayerGame> getGamesForPlayer(userAccount user, String playerID, String year) throws Exception
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("URL", URL + "api/inspect_player");
+        params.put("token", user.getToken());
+        params.put("datatype", "keyvalue");
+        params.put("year", year);
+        params.put("playerID", playerID);
+
+
+        JSONObject response = new apiPost().execute(params).get();
+
+        while (response == null)
+            response = new apiGet().execute(params).get();
+
+        if (!(response.getString("status").equals("success")))
+            return null;
+
+        JSONObject games = response.getJSONObject("data");
+        ArrayList<String> playerKeys = (ArrayList) Helpers.getListFromIterator(games.keys());
+        ArrayList<NFLPlayerGame> rVal = new ArrayList<>();
+
+        //Loop for all games
+        for (int i = 0; i < playerKeys.size(); i++)
+        {
+            rVal.add(new NFLPlayerGame(games.getJSONObject(playerKeys.get(i))));
+        }
+
+        return rVal;
+    }//End get Team
+
     public static boolean register(String email, String user_name, String password)
     {
         boolean rVal = false;

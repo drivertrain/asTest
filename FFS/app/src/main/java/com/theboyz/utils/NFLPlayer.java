@@ -10,6 +10,11 @@ public class NFLPlayer
     private double totalTouches, leagueScore;
     private int imageResource;
 
+    public NFLPlayer()
+    {
+        this.name = "None";
+    }
+
     public NFLPlayer(String name, String playerID, int season, String team, double totalTouches, double leagueScore)
     {
         this.name = name;
@@ -30,6 +35,7 @@ public class NFLPlayer
             this.team = player.getString("Team");
             this.leagueScore = player.getDouble("League Score");
             this.totalTouches = player.getDouble("Total Touches");
+            this.setImageResource(Helpers.getImageId(this.team));
         }
         catch(Exception e)
         {
@@ -41,6 +47,7 @@ public class NFLPlayer
     public String getScore() { return String.valueOf(this.leagueScore); }
     public String getTeam() { return this.team; }
     public String getID() { return this.playerID; }
+    public String getTouches() { return String.valueOf(this.totalTouches); }
 
 
     public int getImageResource() { return this.imageResource; }
