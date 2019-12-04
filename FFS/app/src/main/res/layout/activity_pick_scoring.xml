@@ -13,7 +13,23 @@
         android:layout_height="45dp"
         android:onClick="_next_clicked"
         android:text="@string/next_button_text"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/statScrollView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/ffsPrimary"
+        app:layout_constraintEnd_toEndOf="parent">
+    </Button>
+
+    <Button
+        android:id="@+id/defaultScoring"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:onClick="_default_scoring_clicked"
+        android:textColor="@color/white"
+        android:text="USE DEFAULT SCORING"
+        android:backgroundTint="@color/ffsPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -23,7 +39,7 @@
         android:id="@+id/statScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="82dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

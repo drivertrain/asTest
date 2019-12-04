@@ -57,6 +57,8 @@
         <Button
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:backgroundTint="@color/ffsPrimary"
+            android:textColor="@color/white"
             android:layout_alignParentRight="true"
             android:text="@string/view_game_text"
             android:id="@+id/viewGameButton">

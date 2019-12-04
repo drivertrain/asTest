@@ -35,6 +35,7 @@
         android:layout_width="268dp"
         android:layout_height="46dp"
         android:layout_marginTop="50dp"
+        android:textColor="@color/white"
         android:backgroundTint="@color/ffsPrimary"
         android:onClick="_save_changes"
         android:text="@string/save_button_text"

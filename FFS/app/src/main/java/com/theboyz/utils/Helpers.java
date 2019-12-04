@@ -159,7 +159,11 @@ public class Helpers
 
     public static JSONObject getDefaultScoring() throws Exception
     {
-        return new JSONObject("{\"pass.comp\":0.1,\"passyds\":0.04,\"pass.tds\":6,\"pass.ints\":-2,\"rush.att\":0.1,\"rushyds\":0.1,\"rushtds\":6,\"recept\":0.4,\"recyds\":0.1,\"rec.tds\":6,\"st_ret_yds\":0.05,\"kickret.tds\":6,\"puntret.tds\":6,\"fumbslost\":-2,\"two_pts\":2,\"xpa\":1,\"fgs\":1}");
+        JSONObject scoring = new JSONObject();
+        scoring.put("playerIDS", "['00-0033077', '00-0029263', '00-0033921', '00-0033906', '00-0032211', '00-0034348', '00-0033303', '00-0030061', '00-0032626', '00-0033556', '00-0034378', '00-0033930']");
+        scoring.put("scoredStats", "['pass.comp', 'passyds', 'pass.tds', 'pass.ints', 'rush.att', 'rushyds', 'rushtds', 'recept', 'recyds', 'rec.tds', 'st_ret_yds', 'kickret.tds', 'puntret.tds', 'fumbslost', 'two_pts', 'xpa', 'fgs']");
+        scoring.put("statWeights", "[0.1, 0.04, 6, -2, 0.1, 0.1, 6, 0.4, 0.1, 6, 0.05, 6, 6, -2, 2, 1, 1]");
+        return scoring;
     }
 
     public static String[] convertScoringList(ArrayList<String> in)

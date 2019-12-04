@@ -68,6 +68,12 @@ public class PickScoring extends AppCompatActivity
         }//End Else
     }//End next click
 
+    public void _default_scoring_clicked(View v)
+    {
+       setResult(MainActivity.USE_DEFAULT_SCORING);
+       finish();
+    }
+
     public boolean isValid()
     {
         boolean status = false;

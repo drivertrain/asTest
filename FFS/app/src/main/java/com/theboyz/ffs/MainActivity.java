@@ -30,10 +30,12 @@ public class MainActivity extends AppCompatActivity
     //SUCCESS CODES
     public static final int REGISTER_SUCCESSFUL = 2010;
     public static final int LOGIN_SUCCESSFUL = 3010;
+    public static final int USE_DEFAULT_SCORING = 4009;
     public static final int STAT_PICK_SUCCESSFUL = 4010;
     public static final int WEIGHT_PICK_SUCCESSFUL = 5010;
     public static final int PICK_PLAYER_SUCCESSFUL = 6010;
     public static final int PROFILE_NEXT_TASK = 1010;
+
 
 
     //ERROR CODES
@@ -139,6 +141,17 @@ public class MainActivity extends AppCompatActivity
                             nextPage.putExtra("loginResponse", this.loginResponse);
                             startActivityForResult(nextPage, PROFILE_REQUEST);
                             break;
+
+                        case USE_DEFAULT_SCORING:
+
+                            user = this.getUser();
+                            user.configureUser(Helpers.getDefaultScoring());
+                            ffsAPI.updateUserConfig(user);
+
+                            nextPage = new Intent(this, ProfilePage.class);
+                            nextPage.putExtra("loginResponse", this.loginResponse);
+                            startActivityForResult(nextPage, PROFILE_REQUEST);
+                            break;
                     }
                     break;
 
@@ -152,6 +165,19 @@ public class MainActivity extends AppCompatActivity
                     startActivityForResult(nextPage, WEIGHT_PICK_REQUEST_CODE);
 
                 }//End if
+                else if (resultCode == USE_DEFAULT_SCORING)
+                {
+
+                    userAccount user = this.getUser();
+                    JSONObject scoring = Helpers.getDefaultScoring();
+                    scoring.put("id", user.getID());
+                    user.configureUser(scoring);
+                    ffsAPI.updateUserConfig(user);
+
+                    nextPage = new Intent(this, ProfilePage.class);
+                    nextPage.putExtra("loginResponse", this.loginResponse);
+                    startActivityForResult(nextPage, PROFILE_REQUEST);
+                }
                 break;
 
             case (WEIGHT_PICK_REQUEST_CODE):
